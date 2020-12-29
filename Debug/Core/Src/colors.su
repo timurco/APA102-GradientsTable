@@ -1,0 +1,3 @@
+colors.c:9:6:gammaInit	32	static
+colors.c:17:10:gradientTransition	56	static
+colors.c:72:10:gradientRGB	40	static
