@@ -1,2 +1,6 @@
+.mxproject
+.DS_Store
+
 /.settings
 /Debug
+/APA102-on-STM32-with-HAL
