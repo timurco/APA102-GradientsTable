@@ -10,7 +10,7 @@
 - RGBW – Светодиодная лента для подсветки пола под столом
 
 ## Используемые библиотеки
-- В коде используется библиотека для управления APA102 взятая у [HansAchterbahn](https://github.com/HansAchterbahn/APA102-on-STM32-with-HAL) (Июль 2019).
+- В коде используется [библиотека для управления APA102 взятая у HansAchterbahn](https://github.com/HansAchterbahn/APA102-on-STM32-with-HAL) (Июль 2019).
 - Шум перлина взят с этого гиста https://gist.github.com/nowl/828013
 
 ## STM32 Пины:
