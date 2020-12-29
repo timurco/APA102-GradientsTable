@@ -89,10 +89,8 @@ int main(void)
 	uint32_t changeTimer, transitionTimer;
 	float transitionValue = 0;
 
-	float t = 0;
 	uint8_t brightness = 0;
 	float yPos = 0;
-	float inc = 0.01;
 	uint8_t noise;
 	float noise_f;
 

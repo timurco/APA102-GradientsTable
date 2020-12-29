@@ -15,6 +15,12 @@ RM := rm -rf
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(S_DEPS)),)
+-include $(S_DEPS)
+endif
+ifneq ($(strip $(S_UPPER_DEPS)),)
+-include $(S_UPPER_DEPS)
+endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
 endif
@@ -22,26 +28,34 @@ endif
 
 -include ../makefile.defs
 
+BUILD_ARTIFACT_NAME := APA102-GradientsTable
+BUILD_ARTIFACT_EXTENSION := elf
+BUILD_ARTIFACT_PREFIX := 
+BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME).$(BUILD_ARTIFACT_EXTENSION)
+
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-APA102.elf \
+APA102-GradientsTable.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-APA102.list \
+APA102-GradientsTable.list \
 
 OBJCOPY_BIN += \
-APA102.bin \
+APA102-GradientsTable.bin \
 
 
 # All Target
-all: APA102.elf secondary-outputs
+all: main-build
+
+# Main-build Target
+main-build: APA102-GradientsTable.elf secondary-outputs
 
 # Tool invocations
-APA102.elf: $(OBJS) $(USER_OBJS) /Volumes/MotionDesign/Projects/-Electronic/-stm32/APA102/STM32F103C8TX_FLASH.ld
-	arm-none-eabi-gcc -o "APA102.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/Volumes/MotionDesign/Projects/-Electronic/-stm32/APA102/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="APA102.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+APA102-GradientsTable.elf: $(OBJS) $(USER_OBJS) /Volumes/MotionDesign/Projects/-Electronic/-stm32/APA102-GradientsTable/STM32F103C8TX_FLASH.ld
+	arm-none-eabi-gcc -o "APA102-GradientsTable.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/Volumes/MotionDesign/Projects/-Electronic/-stm32/APA102-GradientsTable/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="APA102-GradientsTable.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -50,13 +64,13 @@ default.size.stdout: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-APA102.list: $(EXECUTABLES)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "APA102.list"
+APA102-GradientsTable.list: $(EXECUTABLES)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "APA102-GradientsTable.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-APA102.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "APA102.bin"
+APA102-GradientsTable.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "APA102-GradientsTable.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -67,7 +81,14 @@ clean:
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
-.PHONY: all clean dependents
+fail-specified-linker-script-missing:
+	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
+	@exit 2
+
+warn-no-linker-script-specified:
+	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
+
+.PHONY: all clean dependents fail-specified-linker-script-missing warn-no-linker-script-specified
 .SECONDARY:
 
 -include ../makefile.targets
