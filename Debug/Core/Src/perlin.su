@@ -1,5 +1,0 @@
-perlin.c:26:5:noise2	24	static
-perlin.c:32:7:lin_inter	24	static
-perlin.c:37:7:smooth_inter	32	static
-perlin.c:42:7:noise2d	64	static
-perlin.c:57:7:perlin2d	48	static
