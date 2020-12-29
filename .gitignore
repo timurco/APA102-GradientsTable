@@ -18,12 +18,8 @@ Thumbs.db
 
 # CubeIDE Debug Files
 *.launch
-
-
 STM32F103C8TX_FLASH.ld
 /Debug
+
+# Auto-generated
 Core/.DS_Store
-.cproject
-.project
-.project
-.project
